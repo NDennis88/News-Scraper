@@ -3,7 +3,7 @@ $.getJSON("/articles", function(data) {
     // For each one
     for (var i = 0; i < data.length; i++) {
       // Display the apropos information on the page
-      $("#articles").append("<p data-id='" + data[i]._id + "'>" + data[i].image + "<br />" + data[i].title + "<br />" + data[i].link + "<br />" + data[i].teaser + "</p>");
+      $("#articles").append("<div class='col-sm' style='margin-bottom:60px;'><div class='card'><div class='card-body'><a class='title-link' href='" + data[i].link +"'><h5>" + data[i].title + "</h5></a><hr><p class='card-text'>" + data[i].teaser + "</p><button data-id='" + data[i]._id + "' class='btn-note btn btn-outline-primary btn-sm' data-toggle='modal' data-target='#myModal' style='margin-right:10px;'>Note</button><button id='btn-save' data-id='" + data[i]._id + "' class='btn btn-outline-primary btn-sm'>Save Article</button></div></div></div>");
     }
   });
   
@@ -42,7 +42,7 @@ $(document).on("click", "p", function() {
   });
   
   // When you click the savenote button
-$(document).on("click", "#savenote", function() {
+    $(document).on("click", "#savenote", function() {
     // Grab the id associated with the article from the submit button
     var thisId = $(this).attr("data-id");
   
@@ -69,4 +69,3 @@ $(document).on("click", "#savenote", function() {
     $("#titleinput").val("");
     $("#bodyinput").val("");
   });
-  

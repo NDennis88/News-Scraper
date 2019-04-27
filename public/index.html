@@ -5,23 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>News Scraper</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Comfortaa" rel="stylesheet">
     <style>
-        body { background-color: #F2F6D0 }
-        #wrapper {
+        body { 
+            background-color: #F2F6D0;
+            font-family: 'Comfortaa', cursive;
+        }
+        /* #wrapper {
           width: 960px;
           margin-left: auto;
           margin-right: auto;
           padding-top: 5%;
+          font-family: 'Comfortaa', cursive;
+        } */
+        .container {
+          text-align:center;
         }
         #articles {
           display: inline-block;
           overflow: auto;
-          width: 60%;
+          width: 30%;
           height: 700px;
         }
         #notes {
           float: right;
-          width: 30%;
+          width: 50%;
         }
         textarea, input {
           display: block;
@@ -40,8 +49,12 @@
 </head>
 <body>
     
-    <div id="wrapper">
-        <h1>NPR Scraper</h1>
+    <!-- <div id="wrapper"> -->
+            <div class="jumbotron jumbotron-fluid">
+                    <div class="container">
+                      <h1 class="display-4">NPR Scraper</h1>
+                    </div>
+                  </div>
         <div id="articles"></div>
         <div id="notes"></div>
       </div>
