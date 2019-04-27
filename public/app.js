@@ -3,12 +3,12 @@ $.getJSON("/articles", function(data) {
     // For each one
     for (var i = 0; i < data.length; i++) {
       // Display the apropos information on the page
-      $("#articles").append("<div class='col-sm' style='margin-bottom:60px;'><div class='card'><div class='card-body'><a class='title-link' href='" + data[i].link +"'><h5>" + data[i].title + "</h5></a><hr><p class='card-text'>" + data[i].teaser + "</p><button data-id='" + data[i]._id + "' class='btn-note btn btn-outline-primary btn-sm' data-toggle='modal' data-target='#myModal' style='margin-right:10px;'>Note</button><button id='btn-save' data-id='" + data[i]._id + "' class='btn btn-outline-primary btn-sm'>Save Article</button></div></div></div>");
+      $("#articles").append("<div class='col-s-5' style='margin-bottom:60px;'><div class='card'><div class='card-body'><a class='title-link' href='" + data[i].link +"'><h5>" + data[i].title + "</h5></a><hr><p class='card-text'>" + data[i].teaser + "</p><button data-id='" + data[i]._id + "' class='btn-note btn btn-outline-danger btn-sm' data-toggle='modal' data-target='#myModal' style='margin-right:10px;'>Note</button><button id='btn-save' data-id='" + data[i]._id + "' class='btn btn-outline-danger btn-sm'>Save Article</button></div></div></div>");
     }
   });
   
 // Whenever someone clicks a p tag
-$(document).on("click", "p", function() {
+$(document).on("click", ".btn-note", function() {
     // Empty the notes from the note section
     $("#notes").empty();
     // Save the id from the p tag
