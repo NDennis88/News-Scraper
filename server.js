@@ -8,7 +8,7 @@ const moment = require("moment");
 // It works on the client and on the server
 const cheerio = require("cheerio");
 const axios = require("axios");
-var db = require('./models');
+var db = require('./models/index');
 
 
 // Require all models
@@ -174,7 +174,6 @@ app.put("/saved/:id", function(req, res) {
 
     var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
 
-    mongoose.Promise = Promise;
     mongoose.connect(MONGODB_URI);
 
 
