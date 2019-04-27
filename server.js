@@ -2,8 +2,6 @@ const mongoose = require("mongoose");
 const express = require("express");
 const logger = require("morgan");
 const moment = require("moment");
-const models = require('./models');
-console.log(models.Article)
 
 // Our scraping tools
 // Axios is a promised-based http library, similar to jQuery's Ajax method
