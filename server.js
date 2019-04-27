@@ -8,7 +8,7 @@ const moment = require("moment");
 // It works on the client and on the server
 const cheerio = require("cheerio");
 const axios = require("axios");
-var db = require('./models/Index');
+var db = require('./models');
 
 
 // Require all models
