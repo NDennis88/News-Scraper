@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const express = require("express");
 const logger = require("morgan");
+const moment = require("moment");
 
 // Our scraping tools
 // Axios is a promised-based http library, similar to jQuery's Ajax method
@@ -37,9 +38,9 @@ console.log("\n*************************************************\n" +
             "\n*************************************************\n");
 
 // Routes
-// app.get("/", function(req, res) {
-//     res.send(index.html);
-//   });
+app.get("/", function(req, res) {
+    res.send(index.html);
+  });
 
 // A GET route for scraping the echoJS website
 app.get("/scrape", function(req, res) {
@@ -59,12 +60,14 @@ axios.get("https://www.npr.org/sections/news/").then(function(response) {
         const link = $(element).find(".title").children("a").attr("href");
         // Save the values of any "teaser" attributes
         const summary = $(element).find(".teaser").text();
+        const articleCreated = moment().format("YYYY MM DD h:mm:ss");
         // Save the results in an object that we'll push into the results array
         const result = {
             image: image,
             title: title,
             link: link,
-            teaser: summary
+            teaser: summary,
+            articleCreated: articleCreated
         }
 
 
@@ -74,16 +77,106 @@ axios.get("https://www.npr.org/sections/news/").then(function(response) {
 
         if(data === null) {
             db.Article.create(result).then(function(dbarticle){
-                res.json(dbarticle);
+                res.json(dbArticle);
             });
         }
     }).catch(function(err) {
-        // res.json(err);
+        res.json(err);
      });
    });
  });
+ 
  res.send("Scrape Complete");
 });
+
+// Route for getting all Articles from the db
+app.get("/articles", function(req, res) {
+  
+    db.Article
+      .find({})
+      .sort({articleCreated:-1})
+      .then(function(dbArticle) {
+        res.json(dbArticle);
+      })
+      .catch(function(err) {
+        res.json(err);
+      });
+  });
+
+// Route for grabbing a specific Article by id, populate it with it's note
+app.get("/articles/:id", function(req, res) {
+
+    db.Article
+      .findOne({ _id: req.params.id })
+      .populate("note")
+      .then(function(dbArticle) {
+        res.json(dbArticle);
+      })
+      .catch(function(err) {
+        res.json(err);
+      });
+  });
+  
+  // Route for saving/updating an Article's associated Note
+  app.post("/articles/:id", function(req, res) {
+  
+    db.Note
+      .create(req.body)
+      .then(function(dbNote) {
+        return db.Article.findOneAndUpdate({ _id: req.params.id }, { note: dbNote._id }, { new: true });
+      })
+      .then(function(dbArticle) {
+        res.json(dbArticle);
+      })
+      .catch(function(err) {
+        res.json(err);
+      });
+  });
+
+  // Route for saving/updating article to be saved
+app.put("/saved/:id", function(req, res) {
+
+    db.Article
+      .findByIdAndUpdate({ _id: req.params.id }, { $set: { isSaved: true }})
+      .then(function(dbArticle) {
+        res.json(dbArticle);
+      })
+      .catch(function(err) {
+        res.json(err);
+      });
+  });
+  
+  // Route for getting saved article
+  app.get("/saved", function(req, res) {
+  
+    db.Article
+      .find({ isSaved: true })
+      .then(function(dbArticle) {
+        res.json(dbArticle);
+      })
+      .catch(function(err) {
+        res.json(err);
+      });
+  });
+  
+  // Route for deleting/updating saved article
+  app.put("/delete/:id", function(req, res) {
+  
+    db.Article
+      .findByIdAndUpdate({ _id: req.params.id }, { $set: { isSaved: false }})
+      .then(function(dbArticle) {
+        res.json(dbArticle);
+      })
+      .catch(function(err) {
+        res.json(err);
+      });
+  });
+
+    var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
+
+    mongoose.Promise = Promise;
+    mongoose.connect(MONGODB_URI);
+
 
 // Start the server
 app.listen(PORT, function() {
