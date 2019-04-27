@@ -30,7 +30,11 @@ app.use(express.json());
 app.use(express.static("public"));
 
 // Connect to the Mongo DB
-mongoose.connect("mongodb://localhost/article", { useNewUrlParser: true });
+// mongoose.connect("mongodb://localhost/article", { useNewUrlParser: true });
+const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/article";
+
+    mongoose.connect(MONGODB_URI), { useNewUrlParser: true };
+
 
 console.log("\n*************************************************\n" +
             "Grabbing every article title, summary, original url\n" +
@@ -171,11 +175,6 @@ app.put("/saved/:id", function(req, res) {
         res.json(err);
       });
   });
-
-    var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
-
-    mongoose.connect(MONGODB_URI);
-
 
 // Start the server
 app.listen(PORT, function() {
