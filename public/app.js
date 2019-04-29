@@ -26,7 +26,7 @@ $(document).on("click", ".btn-fetch", function() {
     
     $(".modal-title").empty();
     $(".input").empty();
-    $(".commentSection").empty();
+
   
     // Save the id from .btn-note
     var thisId = $(this).attr("data-id");
