@@ -87,10 +87,10 @@ $(document).on("click", ".btn-fetch", function() {
       var thisId = $(this).attr("data-id");
       console.log(thisId);
     
-      // Run a DELETE request to change the note, using what's entered in the inputs
+      // Run a POST request to change the note, using what's entered in the inputs
       $.ajax({
-        method: "DELETE",
-        url: "/articles/" + thisId,
+        method: "POST",
+        url: "/delete/" + thisId,
         data: {
           // Value taken from note textarea
           body: $("#bodyinput").val()
